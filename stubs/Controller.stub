@@ -1,0 +1,71 @@
+<?php
+
+namespace App\Http\Controllers{{namespace}};
+
+use App\Http\Requests{{namespace}}\{{modelName}}Request;
+use App\Models{{namespace}}\{{modelName}};
+use App\Enums\ResponseMessage;
+use App\Http\Controllers\Controller;
+use App\Http\Filters{{namespace}}\{{modelName}}Filters;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+class {{modelName}}Controller extends Controller
+{
+    public function index(Request $request, {{modelName}}Filters $filters)
+    {
+      try {
+            $paginate = $request->query('sizePerPage', 25);
+            $result = {{modelName}}::filter($filters)->paginate($paginate);
+
+            return  $this->success(ResponseMessage::API_SUCCESS, $result);
+      } catch (\Exception $e) {
+            \Log::error($e->getMessage(), $e->getTrace());
+            return $this->error($e->getMessage());
+      }
+    }
+
+    public function store({{modelName}}Request $request)
+    {
+      try {
+        ${{modelNameSingularLowerCase}} = {{modelName}}::create($request->validated());
+
+        return $this->success(ResponseMessage::API_SUCCESS, ${{modelNameSingularLowerCase}}, Response::HTTP_CREATED);
+      } catch (\Exception $e) {
+          \Log::error($e->getMessage(), $e->getTrace());
+        return $this->error($e->getMessage());
+      }
+    }
+
+    public function show({{modelName}} ${{modelNameSingularLowerCase}})
+    {
+      try {
+          return $this->success(ResponseMessage::API_SUCCESS, ${{modelNameSingularLowerCase}});
+      } catch (\Exception $e) {
+          \Log::error($e->getMessage(), $e->getTrace());
+          return $this->error($e->getMessage());
+      }
+    }
+
+    public function update({{modelName}}Request $request, {{modelName}} ${{modelNameSingularLowerCase}})
+    {
+      try {
+          $response = ${{modelNameSingularLowerCase}}->update($request->validated());
+          return $this->success(ResponseMessage::API_SUCCESS, $response);
+      } catch (\Exception $e) {
+          \Log::error($e->getMessage(), $e->getTrace());
+          return $this->error($e->getMessage());
+      }
+    }
+
+    public function destroy({{modelName}} ${{modelNameSingularLowerCase}})
+    {
+      try {
+          $response = ${{modelNameSingularLowerCase}}->delete();
+          return $this->success(ResponseMessage::API_SUCCESS, $response);
+      } catch (\Exception $e) {
+          \Log::error($e->getMessage(), $e->getTrace());
+          return $this->error($e->getMessage());
+      }
+    }
+}
