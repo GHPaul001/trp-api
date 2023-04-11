@@ -12,7 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('payku_transactions', function (Blueprint $table) {
-            $table->id();
+            $table->string('id',191);
+            $table->string('status',191)->nullable();
+            $table->string('order',191)->nullable();
+            $table->string('email',191)->nullable();
+            $table->string('subject',191)->nullable();
+            $table->text('url')->nullable();
+            $table->integer('amount')->nullable();
+            $table->dateTime('notified_at')->nullable();
             $table->timestamps();
         });
     }

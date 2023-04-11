@@ -12,8 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('permissions', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->bigInteger('id')->autoIncrement();
+            $table->string('name',191);
+            $table->string('section',50)->nullable();
+            $table->string('guard_name',191);
+            $table->timestamp('created_at')->nullable();
+            $table->timestamp('updated_at')->nullable();
         });
     }
 

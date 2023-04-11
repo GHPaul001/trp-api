@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('product_queries', function (Blueprint $table) {
             $table->id();
+            $table->integer('customer_id');
+            $table->integer('seller_id');
+            $table->integer('product_id');
+            $table->longText('question');
+            $table->longText('reply')->nullable();
             $table->timestamps();
         });
     }

@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('searches', function (Blueprint $table) {
             $table->id();
+            $table->string('query',1000);
+            $table->integer('count')->default(1);
             $table->timestamps();
         });
     }

@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('pickup_points', function (Blueprint $table) {
             $table->id();
+            $table->integer('staff_id');
+            $table->string('name');
+            $table->mediumText('address');
+            $table->string('phone',15);
+            $table->integer('pickup_status')->nullable();
+            $table->integer('cash_on_pickup_status')->nullable();
             $table->timestamps();
         });
     }

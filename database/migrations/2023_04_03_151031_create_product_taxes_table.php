@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('product_taxes', function (Blueprint $table) {
             $table->id();
+            $table->integer('product_id');
+            $table->integer('tax_id');
+            $table->double('tax');
+            $table->string('tax_type',10);
             $table->timestamps();
         });
     }

@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
+            $table->integer('seller_id');
+            $table->double('amount')->default(0.00);
+            $table->longText('payment_details')->nullable();
+            $table->string('payment_method')->nullable();
+            $table->string('txn_code',100)->nullable();
             $table->timestamps();
         });
     }

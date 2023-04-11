@@ -12,7 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('page_translations', function (Blueprint $table) {
-            $table->id();
+            $table->bigInteger('id')->autoIncrement();
+            $table->bigInteger('page_id');
+            $table->string('title')->nullable();
+            $table->longText('guest_id')->nullable();
+            $table->string('lang',100)->nullable();
             $table->timestamps();
         });
     }

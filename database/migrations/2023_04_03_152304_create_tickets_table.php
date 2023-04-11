@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
+            $table->integer('code');
+            $table->integer('user_id');
+            $table->string('subject');
+            $table->longText('details')->nullable();
+            $table->longText('files')->nullable();
+            $table->string('status',10)->default('pending');
+            $table->integer('viewed')->default(0);
+            $table->integer('client_viewed')->default(0);
             $table->timestamps();
         });
     }

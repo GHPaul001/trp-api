@@ -12,7 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('role_translations', function (Blueprint $table) {
-            $table->id();
+            $table->bigInteger('id');
+            $table->bigInteger('role_id');
+            $table->string('name',50);
+            $table->string('lang',100);
             $table->timestamps();
         });
     }
