@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class Order extends Model implements Auditable
+class Order extends Model
 {
-    use HasFactory, SoftDeletes, \OwenIt\Auditing\Auditable, Filterable;
+    use HasFactory, Filterable;
 
     protected $fillable = [];
 }

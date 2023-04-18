@@ -8,13 +8,14 @@ use App\Enums\ResponseMessage;
 use App\Http\Controllers\Controller;
 use App\Http\Filters\CartFilters;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\Response;
 
 class CartController extends Controller
 {
     public function index(Request $request, CartFilters $filters)
     {
       try {
+            // return 'Hi';
             $paginate = $request->query('sizePerPage', 25);
             $result = Cart::filter($filters)->paginate($paginate);
 

@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class Brands extends Model implements Auditable
+class Brands extends Model
 {
-    use HasFactory, SoftDeletes, \OwenIt\Auditing\Auditable, Filterable;
+    use HasFactory,  Filterable;
 
-    protected $fillable = [];
+    protected $fillable = ['name','logo','slug'.'meta_title','meta_description'];
+
 }

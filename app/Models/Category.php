@@ -8,9 +8,24 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class Category extends Model implements Auditable
+class Category extends Model 
 {
-    use HasFactory, SoftDeletes, \OwenIt\Auditing\Auditable, Filterable;
+    use HasFactory, Filterable;
 
     protected $fillable = [];
+
+    public function products()
+    {
+        return $this->belongsTo('App\Models\Product', 'categories_id', 'id');
+    }
+
+    public function clients()
+    {
+        return $this->belongsTo('App\Models\Clients', 'client_id', 'id')->withTrashed();
+    }
+
+    public function episode()
+    {
+        return $this->belongsTo('App\Models\TreatmentEpisode', 'treatment_episode_id', 'id');
+    }
 }

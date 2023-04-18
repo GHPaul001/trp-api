@@ -8,9 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class Product extends Model implements Auditable
+class Product extends Model 
 {
-    use HasFactory, SoftDeletes, \OwenIt\Auditing\Auditable, Filterable;
+    use HasFactory,  Filterable;
 
-    protected $fillable = [];
+    protected $fillable = ['name','added_by','user_id','category_id','brand_id'];
+
+    protected $hidden = [ 'created_at', 'updated_at'];
+
 }

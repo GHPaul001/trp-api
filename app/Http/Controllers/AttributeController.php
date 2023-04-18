@@ -47,6 +47,17 @@ class AttributeController extends Controller
       }
     }
 
+    public function getallattributes(Attribute $attribute)
+    {
+      try {
+          $attribute=Attribute::get('name');
+          return $this->success(ResponseMessage::API_SUCCESS, $attribute);
+      } catch (\Exception $e) {
+          \Log::error($e->getMessage(), $e->getTrace());
+          return $this->error($e->getMessage());
+      }
+    }
+
     public function update(AttributeRequest $request, Attribute $attribute)
     {
       try {

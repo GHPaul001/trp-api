@@ -10,7 +10,8 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 class Language extends Model implements Auditable
 {
-    use HasFactory, SoftDeletes, \OwenIt\Auditing\Auditable, Filterable;
+    use HasFactory, \OwenIt\Auditing\Auditable, Filterable;
 
     protected $fillable = [];
+    protected $visible = ['code','name'];
 }

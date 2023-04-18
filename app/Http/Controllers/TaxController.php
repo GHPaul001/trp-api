@@ -47,6 +47,30 @@ class TaxController extends Controller
       }
     }
 
+    public function getalltaxes(Tax $tax)
+    {
+      try {
+          $tax = Tax::where('tax_status',1)->get(['id','name']);
+
+          return $this->success(ResponseMessage::API_SUCCESS, $tax);
+      } catch (\Exception $e) {
+          \Log::error($e->getMessage(), $e->getTrace());
+          return $this->error($e->getMessage());
+      }
+    }
+
+    public function getdigitaltaxes(Tax $tax)
+    {
+      try {
+          $tax = Tax::where('tax_status',1)->get(['id','name','status']);
+
+          return $this->success(ResponseMessage::API_SUCCESS, $tax);
+      } catch (\Exception $e) {
+          \Log::error($e->getMessage(), $e->getTrace());
+          return $this->error($e->getMessage());
+      }
+    }
+
     public function update(TaxRequest $request, Tax $tax)
     {
       try {

@@ -12,13 +12,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class BrandsController extends Controller
 {
-    public function index(Request $request, BrandsFilters $filters)
+    public function index(Request $request)
     {
       try {
-            $paginate = $request->query('sizePerPage', 25);
-            $result = Brands::filter($filters)->paginate($paginate);
-
-            return  $this->success(ResponseMessage::API_SUCCESS, $result);
+            $request = Brands::select('id','name','logo')->get();
+            return  $this->success(ResponseMessage::API_SUCCESS, $request);
       } catch (\Exception $e) {
             \Log::error($e->getMessage(), $e->getTrace());
             return $this->error($e->getMessage());
@@ -37,6 +35,29 @@ class BrandsController extends Controller
       }
     }
 
+    public function getBrandName(Brands $brands)
+    {
+      try {
+        $brands = Brands::get(['name']);
+        return $this->success(ResponseMessage::API_SUCCESS, $brands, Response::HTTP_OK);
+      } catch (\Exception $e) {
+          \Log::error($e->getMessage(), $e->getTrace());
+          return $this->error($e->getMessage());
+      }
+    }
+
+    public function getBrandsAll(Brands $brands)
+    {
+      try {
+        $brands = Brands::get([' id', 'name', 'logo']);
+        return $this->success(ResponseMessage::API_SUCCESS, $brands, Response::HTTP_OK);
+      } catch (\Exception $e) {
+          \Log::error($e->getMessage(), $e->getTrace());
+          return $this->error($e->getMessage());
+      }
+    }
+
+
     public function show(Brands $brands)
     {
       try {
@@ -47,10 +68,12 @@ class BrandsController extends Controller
       }
     }
 
-    public function update(BrandsRequest $request, Brands $brands)
+    public function update(BrandsRequest $request,$id)
     {
       try {
-          $response = $brands->update($request->validated());
+          // $request 
+          $checkExist = Brands::findOrFail($id);
+          $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

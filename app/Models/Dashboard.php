@@ -5,12 +5,12 @@ namespace App\Models;
 use App\Http\Traits\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use OwenIt\Auditing\Contracts\Auditable;
+// use Illuminate\Database\Eloquent\SoftDeletes;
+// use OwenIt\Auditing\Contracts\Auditable;
 
-class Tax extends Model implements Auditable
+class Dashboard extends Model
 {
-    use HasFactory, \OwenIt\Auditing\Auditable, Filterable;
+    use HasFactory, Filterable;
 
     protected $fillable = [];
 }

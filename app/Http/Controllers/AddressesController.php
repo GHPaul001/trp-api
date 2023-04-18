@@ -40,6 +40,8 @@ class AddressesController extends Controller
     public function show(Addresses $addresses)
     {
       try {
+        // $request = Language::findOrFail($id);
+        // $response = $request->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $addresses);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

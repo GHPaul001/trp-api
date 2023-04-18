@@ -37,6 +37,19 @@ class ColorController extends Controller
       }
     }
 
+    public function getallcolors(ColorRequest $request)
+    {
+      try {
+        $request = Color::orderBy('name','asc')->get(['name','code']);
+
+        return $this->success(ResponseMessage::API_SUCCESS, $request, Response::HTTP_CREATED);
+      } catch (\Exception $e) {
+          \Log::error($e->getMessage(), $e->getTrace());
+        return $this->error($e->getMessage());
+      }
+    }
+
+
     public function show(Color $color)
     {
       try {
