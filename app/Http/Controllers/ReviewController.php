@@ -47,6 +47,24 @@ class ReviewController extends Controller
       }
     }
 
+    public function getModifiedSearch(Review $review)
+    {
+      try {
+
+        Review::select()
+        ->join('products', 'reviews.product_id', '=', 'products.id')
+        ->join('users', 'reviews.user_id', '=', 'users.id')
+        ->select('products.name', 'products.added_by as product_added_by', 'users.name as user_name', 'users.email as user_email', 'reviews.rating', 'reviews.comment')
+        ->whereNotNull('products.id')
+        ->whereNotNull('users.id')
+        ->get();
+          return $this->success(ResponseMessage::API_SUCCESS, $review);
+      } catch (\Exception $e) {
+          \Log::error($e->getMessage(), $e->getTrace());
+          return $this->error($e->getMessage());
+      }
+    }
+
     public function update(ReviewRequest $request, Review $review)
     {
       try {

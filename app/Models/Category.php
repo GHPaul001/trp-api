@@ -12,7 +12,7 @@ class Category extends Model
 {
     use HasFactory, Filterable;
 
-    protected $fillable = [];
+    protected $fillable = ['name','order_level','parent_id','slug'];
 
     public function products()
     {

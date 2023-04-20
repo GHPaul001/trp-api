@@ -12,13 +12,20 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CategoryController extends Controller
 {
-  public function index(Request $request, CategoryFilters $filters)
+  public function index(Request $request)
   {
     try {
-      $paginate = $request->query('sizePerPage', 25);
-      $result = Category::filter($filters)->paginate($paginate);
 
-      return  $this->success(ResponseMessage::API_SUCCESS, $result);
+    
+        $columnNames = explode(',',$request->input('column_name'));
+        $result = Category::get($columnNames);
+        return response()->json($result);
+      // $result = Category::pluck($columnName);
+      // return response()->json($result);
+      // $paginate = $request->query('sizePerPage', 25);
+      // $result = Category::filter($filters)->paginate($paginate);
+
+      // return  $this->success(ResponseMessage::API_SUCCESS, $result);
     } catch (\Exception $e) {
       \Log::error($e->getMessage(), $e->getTrace());
       return $this->error($e->getMessage());
