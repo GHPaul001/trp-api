@@ -47,10 +47,11 @@ class NotificationController extends Controller
       }
     }
 
-    public function update(NotificationRequest $request, Notification $notification)
+    public function update(NotificationRequest $request, $id)
     {
       try {
-          $response = $notification->update($request->validated());
+        $checkExist = Notification::find($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

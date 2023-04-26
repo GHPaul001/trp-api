@@ -47,10 +47,11 @@ class PageController extends Controller
       }
     }
 
-    public function update(PageRequest $request, Page $page)
+    public function update(PageRequest $request, $id)
     {
       try {
-          $response = $page->update($request->validated());
+        $checkExist = Page::find($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

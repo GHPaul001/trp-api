@@ -47,10 +47,11 @@ class SellerController extends Controller
       }
     }
 
-    public function update(SellerRequest $request, Seller $seller)
+    public function update(SellerRequest $request,$id)
     {
       try {
-          $response = $seller->update($request->validated());
+        $checkExist = Seller::find($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

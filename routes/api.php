@@ -5,6 +5,9 @@ use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\BlogCategoryController;
 use App\Http\Controllers\BrandsController;
 use App\Http\Controllers\BusinessSettingController;
+use App\Http\Controllers\CarrierController;
+use App\Http\Controllers\CarrierPriceRangeController;
+use App\Http\Controllers\CarrierRangeController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
@@ -15,6 +18,7 @@ use App\Http\Controllers\CouponController;
 use App\Http\Controllers\CouponUsageController;
 use App\Http\Controllers\FlashDealController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ReviewController;
@@ -26,6 +30,7 @@ use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
 use App\Models\Attribute;
 use App\Models\Brands;
+use App\Models\CarrierPriceRange;
 use App\Models\Conversation;
 use App\Models\FlashDeal;
 use App\Models\Product;
@@ -55,7 +60,7 @@ Route::prefix('dashboard')->group(function() {
 });
 
 Route::prefix('categories')->group(function() {
-    Route::get('/level0/stock', [CategoryController::class,'getStock'])->name('getStock');
+    Route::get('/level0/{id}', [CategoryController::class,'getStock'])->name('getStock');
 });
 
 Route::prefix('products')->group(function() {
@@ -68,8 +73,6 @@ Route::prefix('products')->group(function() {
 });
 
 
-
-
 Route::prefix('digital_products')->group(function() {
     Route::get('/products', [ProductController::class,'getalldigitalproducts'])->name('getalldigitalproducts');
     Route::get('/categories', [CategoryController::class,'getdigitalcategories'])->name('getdigitalcategories');
@@ -77,9 +80,10 @@ Route::prefix('digital_products')->group(function() {
 });
 
 Route::prefix('reviews')->group(function() {
-    Route::get('/getreviewsall', [ReviewController::class,'getModifiedSearch'])->name('getModifiedSearch');
-    Route::get('/categories', [CategoryController::class,'getdigitalcategories'])->name('getdigitalcategories');
-    Route::get('/tax', [TaxController::class,'getdigitaltaxes'])->name('getdigitaltaxes');
+    Route::get('/getallreviews', [ReviewController::class,'getModifiedSearch'])->name('getModifiedSearch');
+    Route::get('/brands', [ReviewController::class,'getBrandReview'])->name('getBrandReview');
+    Route::get('/categories', [ReviewController::class,'getCategoryReview'])->name('getCategoryReview');
+    Route::get('/attributes/{id}', [ReviewController::class,'getCategoriesAttribute'])->name('getCategoriesAttribute');
 });
 
 Route::prefix('colors')->group(function() {
@@ -102,6 +106,10 @@ Route::apiResource('blog_categories',BlogCategoryController::class);
 Route::apiResource('conversations',ConversationController::class);
 Route::apiResource('cart', CartController::class);
 Route::apiResource('categories', CategoryController::class);
+Route::apiResource('carriers', CarrierController::class);
+Route::apiResource('carriers_range', CarrierRangeController::class);
+Route::apiResource('carriers_range_price', CarrierPriceRangeController::class);
+Route::apiResource('categories', CategoryController::class);
 Route::apiResource('coupons', CouponController::class);
 Route::apiResource('products',ProductController::class);
 Route::apiResource('colors',ColorController::class);
@@ -113,5 +121,8 @@ Route::apiResource('uploads',UploadController::class);
 Route::apiResource('subscribers',SubscriberController::class);
 Route::apiResource('tickets',TicketController::class);
 Route::apiResource('pages',PageController::class);
+Route::apiResource('reviews',ReviewController::class);
 Route::apiResource('translations',TranslationController::class);
+Route::apiResource('flash_deals',FlashDealController::class);
+Route::apiResource('notifications',NotificationController::class);
 // Route::get('/cart', [UserController::class, 'index']);

@@ -47,10 +47,11 @@ class CustomerProductController extends Controller
       }
     }
 
-    public function update(CustomerProductRequest $request, CustomerProduct $customer_product)
+    public function update(CustomerProductRequest $request, $id)
     {
       try {
-          $response = $customer_product->update($request->validated());
+        $checkExist = CustomerProduct::findOrFail($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

@@ -47,10 +47,11 @@ class StaffController extends Controller
       }
     }
 
-    public function update(StaffRequest $request, Staff $staff)
+    public function update(StaffRequest $request, $id)
     {
       try {
-          $response = $staff->update($request->validated());
+        $checkExist = Staff::find($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

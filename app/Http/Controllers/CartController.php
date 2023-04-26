@@ -48,10 +48,11 @@ class CartController extends Controller
       }
     }
 
-    public function update(CartRequest $request, Cart $cart)
+    public function update(CartRequest $request, $id)
     {
       try {
-          $response = $cart->update($request->validated());
+        $checkExist = Cart::findOrFail($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

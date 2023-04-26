@@ -47,10 +47,11 @@ class OrderController extends Controller
       }
     }
 
-    public function update(OrderRequest $request, Order $order)
+    public function update(OrderRequest $request,$id)
     {
       try {
-          $response = $order->update($request->validated());
+        $checkExist = Order::find($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

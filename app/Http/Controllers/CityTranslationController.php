@@ -47,10 +47,11 @@ class CityTranslationController extends Controller
       }
     }
 
-    public function update(CityTranslationRequest $request, CityTranslation $city_translation)
+    public function update(CityTranslationRequest $request, $id)
     {
       try {
-          $response = $city_translation->update($request->validated());
+        $checkExist = CityTranslation::findOrFail($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

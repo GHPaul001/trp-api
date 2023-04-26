@@ -47,10 +47,11 @@ class ConversationController extends Controller
       }
     }
 
-    public function update(ConversationRequest $request, Conversation $conversation)
+    public function update(ConversationRequest $request,$id)
     {
       try {
-          $response = $conversation->update($request->validated());
+        $checkExist = Conversation::findOrFail($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

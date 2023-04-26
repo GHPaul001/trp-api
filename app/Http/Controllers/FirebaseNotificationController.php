@@ -47,10 +47,11 @@ class FirebaseNotificationController extends Controller
       }
     }
 
-    public function update(FirebaseNotificationRequest $request, FirebaseNotification $firebase_notification)
+    public function update(FirebaseNotificationRequest $request,$id)
     {
       try {
-          $response = $firebase_notification->update($request->validated());
+        $checkExist = FirebaseNotification::findOrFail($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

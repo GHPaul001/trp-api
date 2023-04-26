@@ -47,14 +47,14 @@ class AddonsController extends Controller
     }
   }
 
-  public function update(AddonsRequest $request, Addons $addons)
+  public function update(AddonsRequest $request, $id)
   {
     try {
 
       //   $request = Language::findOrFail($id);
       // $response = $request->update($request->all());
-
-      $response = $addons->update($request->validated());
+      $checkExist = Addons::findOrFail($id);
+      $response = $checkExist->update($request->all());
       return $this->success(ResponseMessage::API_SUCCESS, $response);
     } catch (\Exception $e) {
       \Log::error($e->getMessage(), $e->getTrace());

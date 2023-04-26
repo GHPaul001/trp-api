@@ -47,10 +47,11 @@ class ZoneController extends Controller
       }
     }
 
-    public function update(ZoneRequest $request, Zone $zone)
+    public function update(ZoneRequest $request,$id)
     {
       try {
-          $response = $zone->update($request->validated());
+        $checkExist = Zone::find($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

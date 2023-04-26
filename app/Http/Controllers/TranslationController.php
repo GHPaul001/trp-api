@@ -47,10 +47,11 @@ class TranslationController extends Controller
       }
     }
 
-    public function update(TranslationRequest $request, Translation $translation)
+    public function update(TranslationRequest $request, $id)
     {
       try {
-          $response = $translation->update($request->validated());
+        $checkExist = Translation::find($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

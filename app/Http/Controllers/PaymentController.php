@@ -47,10 +47,11 @@ class PaymentController extends Controller
       }
     }
 
-    public function update(PaymentRequest $request, Payment $payment)
+    public function update(PaymentRequest $request, $id)
     {
       try {
-          $response = $payment->update($request->validated());
+        $checkExist = Payment::find($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

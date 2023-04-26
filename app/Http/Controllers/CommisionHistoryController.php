@@ -47,10 +47,11 @@ class CommisionHistoryController extends Controller
       }
     }
 
-    public function update(CommisionHistoryRequest $request, CommisionHistory $commision_history)
+    public function update(CommisionHistoryRequest $request, $id)
     {
       try {
-          $response = $commision_history->update($request->validated());
+        $checkExist = CommisionHistory::findOrFail($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

@@ -16,7 +16,7 @@ class CategoryController extends Controller
   {
     try {
 
-    
+
         $columnNames = explode(',',$request->input('column_name'));
         $result = Category::get($columnNames);
         return response()->json($result);
@@ -96,10 +96,12 @@ class CategoryController extends Controller
     }
   }
 
-  public function update(CategoryRequest $request, Category $category)
+  public function update(CategoryRequest $request, $id)
   {
     try {
-      $response = $category->update($request->validated());
+      $checkExist = Category::findOrFail($id);
+      $response = $checkExist->update($request->all());
+      // $response = $category->update($request->validated());
       return $this->success(ResponseMessage::API_SUCCESS, $response);
     } catch (\Exception $e) {
       \Log::error($e->getMessage(), $e->getTrace());

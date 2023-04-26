@@ -47,10 +47,11 @@ class ProxypayPaymentController extends Controller
       }
     }
 
-    public function update(ProxypayPaymentRequest $request, ProxypayPayment $proxypay_payment)
+    public function update(ProxypayPaymentRequest $request,$id)
     {
       try {
-          $response = $proxypay_payment->update($request->validated());
+        $checkExist = ProxypayPayment::find($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

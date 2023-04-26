@@ -47,10 +47,11 @@ class CurrencyController extends Controller
       }
     }
 
-    public function update(CurrencyRequest $request, Currency $currency)
+    public function update(CurrencyRequest $request, $id)
     {
       try {
-          $response = $currency->update($request->validated());
+        $checkExist = Currency::findOrFail($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

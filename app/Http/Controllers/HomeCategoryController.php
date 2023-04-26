@@ -47,10 +47,11 @@ class HomeCategoryController extends Controller
       }
     }
 
-    public function update(HomeCategoryRequest $request, HomeCategory $home_category)
+    public function update(HomeCategoryRequest $request, $id)
     {
       try {
-          $response = $home_category->update($request->validated());
+        $checkExist = HomeCategory::find($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

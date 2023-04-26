@@ -47,10 +47,11 @@ class PermissionController extends Controller
       }
     }
 
-    public function update(PermissionRequest $request, Permission $permission)
+    public function update(PermissionRequest $request,$id)
     {
       try {
-          $response = $permission->update($request->validated());
+        $checkExist = Permission::find($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

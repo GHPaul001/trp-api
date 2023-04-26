@@ -47,10 +47,11 @@ class PageTranslationController extends Controller
       }
     }
 
-    public function update(PageTranslationRequest $request, PageTranslation $page_translation)
+    public function update(PageTranslationRequest $request, $id)
     {
       try {
-          $response = $page_translation->update($request->validated());
+        $checkExist = PageTranslation::find($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

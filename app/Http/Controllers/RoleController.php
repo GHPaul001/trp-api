@@ -47,10 +47,11 @@ class RoleController extends Controller
       }
     }
 
-    public function update(RoleRequest $request, Role $role)
+    public function update(RoleRequest $request,$id)
     {
       try {
-          $response = $role->update($request->validated());
+        $checkExist = Role::find($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

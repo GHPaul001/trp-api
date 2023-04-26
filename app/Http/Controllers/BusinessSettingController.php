@@ -47,10 +47,12 @@ class BusinessSettingController extends Controller
       }
     }
 
-    public function update(BusinessSettingRequest $request, BusinessSetting $business_setting)
+    public function update(BusinessSettingRequest $request, $id)
     {
       try {
-          $response = $business_setting->update($request->validated());
+        $checkExist = BusinessSetting::findOrFail($id);
+        $response = $checkExist->update($request->all());
+          // $response = $business_setting->update($request->validated());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

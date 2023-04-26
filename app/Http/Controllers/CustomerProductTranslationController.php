@@ -47,10 +47,12 @@ class CustomerProductTranslationController extends Controller
       }
     }
 
-    public function update(CustomerProductTranslationRequest $request, CustomerProductTranslation $customer_product_translation)
+    public function update(CustomerProductTranslationRequest $request,$id)
     {
       try {
-          $response = $customer_product_translation->update($request->validated());
+
+        $checkExist = CustomerProductTranslation::findOrFail($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

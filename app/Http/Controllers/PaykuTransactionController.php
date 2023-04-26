@@ -47,10 +47,11 @@ class PaykuTransactionController extends Controller
       }
     }
 
-    public function update(PaykuTransactionRequest $request, PaykuTransaction $payku_transaction)
+    public function update(PaykuTransactionRequest $request,$id )
     {
       try {
-          $response = $payku_transaction->update($request->validated());
+        $checkExist = PaykuTransaction::find($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

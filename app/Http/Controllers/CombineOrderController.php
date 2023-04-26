@@ -47,10 +47,11 @@ class CombineOrderController extends Controller
       }
     }
 
-    public function update(CombineOrderRequest $request, CombineOrder $combine_order)
+    public function update(CombineOrderRequest $request, $id)
     {
       try {
-          $response = $combine_order->update($request->validated());
+        $checkExist = CombineOrder::findOrFail($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

@@ -10,7 +10,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 class AttributeValue extends Model implements Auditable
 {
-    use HasFactory, SoftDeletes, \OwenIt\Auditing\Auditable, Filterable;
+    use HasFactory, \OwenIt\Auditing\Auditable, Filterable;
 
     protected $fillable = [];
 }

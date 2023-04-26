@@ -13,5 +13,4 @@ class Language extends Model implements Auditable
     use HasFactory, \OwenIt\Auditing\Auditable, Filterable;
 
     protected $fillable = [];
-    protected $visible = ['code','name'];
 }

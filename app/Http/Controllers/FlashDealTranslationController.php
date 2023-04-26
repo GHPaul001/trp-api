@@ -47,10 +47,11 @@ class FlashDealTranslationController extends Controller
       }
     }
 
-    public function update(FlashDealTranslationRequest $request, FlashDealTranslation $flash_deal_translation)
+    public function update(FlashDealTranslationRequest $request, $id)
     {
       try {
-          $response = $flash_deal_translation->update($request->validated());
+        $checkExist = FlashDealTranslation::find($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

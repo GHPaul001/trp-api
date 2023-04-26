@@ -47,10 +47,11 @@ class CategoryTranslationController extends Controller
       }
     }
 
-    public function update(CategoryTranslationRequest $request, CategoryTranslation $category_translation)
+    public function update(CategoryTranslationRequest $request, $id)
     {
       try {
-          $response = $category_translation->update($request->validated());
+        $checkExist = CategoryTranslation::findOrFail($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

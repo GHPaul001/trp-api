@@ -47,10 +47,11 @@ class CouponUsageController extends Controller
       }
     }
 
-    public function update(CouponUsageRequest $request, CouponUsage $coupon_usage)
+    public function update(CouponUsageRequest $request, $id)
     {
       try {
-          $response = $coupon_usage->update($request->validated());
+        $checkExist = CouponUsage::findOrFail($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

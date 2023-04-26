@@ -47,10 +47,11 @@ class ProductTaxController extends Controller
       }
     }
 
-    public function update(ProductTaxRequest $request, ProductTax $product_tax)
+    public function update(ProductTaxRequest $request, $id)
     {
       try {
-          $response = $product_tax->update($request->validated());
+        $checkExist = ProductTax::find($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

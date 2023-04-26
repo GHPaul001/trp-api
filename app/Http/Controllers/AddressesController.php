@@ -49,10 +49,12 @@ class AddressesController extends Controller
       }
     }
 
-    public function update(AddressesRequest $request, Addresses $addresses)
+    public function update(AddressesRequest $request, $id)
     {
       try {
-          $response = $addresses->update($request->validated());
+        $checkExist = Addresses::findOrFail($id);
+        $response = $checkExist->update($request->all());
+          // $response = $addresses->update($request->validated());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

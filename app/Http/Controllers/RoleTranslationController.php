@@ -47,10 +47,11 @@ class RoleTranslationController extends Controller
       }
     }
 
-    public function update(RoleTranslationRequest $request, RoleTranslation $role_translation)
+    public function update(RoleTranslationRequest $request, $id)
     {
       try {
-          $response = $role_translation->update($request->validated());
+        $checkExist = RoleTranslation::find($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

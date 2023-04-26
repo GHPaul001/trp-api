@@ -23,8 +23,6 @@ class ProductController extends Controller
         ->limit(12);
 
       $products = $filters->apply($request)->get();
-      // $paginate = $request->query('sizePerPage', 12);
-      // $result = Product::filter($filters)->paginate($paginate);
 
       return  $this->success(ResponseMessage::API_SUCCESS, $products);
     } catch (\Exception $e) {
@@ -36,9 +34,9 @@ class ProductController extends Controller
   public function store(ProductRequest $request)
   {
     try {
-      $product = Product::create($request->validated());
+      Product::create($request->all());
 
-      return $this->success(ResponseMessage::API_SUCCESS, $product, Response::HTTP_CREATED);
+      return $this->success(ResponseMessage::API_SUCCESS,Response::HTTP_CREATED);
     } catch (\Exception $e) {
       \Log::error($e->getMessage(), $e->getTrace());
       return $this->error($e->getMessage());

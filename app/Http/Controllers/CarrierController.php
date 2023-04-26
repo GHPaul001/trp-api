@@ -47,10 +47,12 @@ class CarrierController extends Controller
       }
     }
 
-    public function update(CarrierRequest $request, Carrier $carrier)
+    public function update(CarrierRequest $request, $id)
     {
       try {
-          $response = $carrier->update($request->validated());
+        $checkExist = Carrier::findOrFail($id);
+        $response = $checkExist->update($request->all());
+
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

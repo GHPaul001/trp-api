@@ -47,10 +47,11 @@ class ShopController extends Controller
       }
     }
 
-    public function update(ShopRequest $request, Shop $shop)
+    public function update(ShopRequest $request,$id )
     {
       try {
-          $response = $shop->update($request->validated());
+        $checkExist = Shop::find($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

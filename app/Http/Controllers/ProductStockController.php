@@ -47,10 +47,11 @@ class ProductStockController extends Controller
       }
     }
 
-    public function update(ProductStockRequest $request, ProductStock $product_stock)
+    public function update(ProductStockRequest $request, $id)
     {
       try {
-          $response = $product_stock->update($request->validated());
+        $checkExist = ProductStock::find($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

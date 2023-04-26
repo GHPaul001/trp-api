@@ -47,10 +47,11 @@ class BlogController extends Controller
       }
     }
 
-    public function update(BlogRequest $request, Blog $blog)
+    public function update(BlogRequest $request, $id)
     {
       try {
-          $response = $blog->update($request->validated());
+        $checkExist = Blog::findOrFail($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

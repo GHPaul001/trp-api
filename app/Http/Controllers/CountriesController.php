@@ -47,10 +47,11 @@ class CountriesController extends Controller
       }
     }
 
-    public function update(CountriesRequest $request, Countries $countries)
+    public function update(CountriesRequest $request, $id)
     {
       try {
-          $response = $countries->update($request->validated());
+        $checkExist = Countries::findOrFail($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

@@ -12,13 +12,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class LanguageController extends Controller
 {
-  public function index(Request $request, LanguageFilters $filters)
+  public function index(Request $request)
   {
     try {
-      $paginate = $request->query('sizePerPage', 25);
-      $result = Language::filter($filters)->paginate($paginate);
+      $language = Language::get(['name','code']);
+      // $result = Language::filter($filters)->paginate($paginate);
 
-      return  $this->success(ResponseMessage::API_SUCCESS, $result);
+      return  $this->success(ResponseMessage::API_SUCCESS, $language);
     } catch (\Exception $e) {
       \Log::error($e->getMessage(), $e->getTrace());
       return $this->error($e->getMessage());
@@ -50,7 +50,7 @@ class LanguageController extends Controller
   public function getLanguage(Language $language)
   {
     try {
-      $language = Language::select('code', 'name');
+      $language = Language::select(['code', 'name']);
       return $this->success(ResponseMessage::API_SUCCESS, $language);
     } catch (\Exception $e) {
       \Log::error($e->getMessage(), $e->getTrace());

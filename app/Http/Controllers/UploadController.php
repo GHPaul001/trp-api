@@ -47,10 +47,11 @@ class UploadController extends Controller
       }
     }
 
-    public function update(UploadRequest $request, Upload $upload)
+    public function update(UploadRequest $request, $id)
     {
       try {
-          $response = $upload->update($request->validated());
+        $checkExist = Upload::find($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

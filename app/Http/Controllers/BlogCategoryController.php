@@ -47,10 +47,11 @@ class BlogCategoryController extends Controller
       }
     }
 
-    public function update(BlogCategoryRequest $request, BlogCategory $blog_category)
+    public function update(BlogCategoryRequest $request, $id)
     {
       try {
-          $response = $blog_category->update($request->validated());
+        $checkExist = BlogCategory::findOrFail($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

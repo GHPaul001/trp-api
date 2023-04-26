@@ -47,10 +47,11 @@ class CustomerPackageController extends Controller
       }
     }
 
-    public function update(CustomerPackageRequest $request, CustomerPackage $customer_package)
+    public function update(CustomerPackageRequest $request, $id)
     {
       try {
-          $response = $customer_package->update($request->validated());
+        $checkExist = CustomerPackage::findOrFail($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

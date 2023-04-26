@@ -15,8 +15,9 @@ class ColorController extends Controller
     public function index(Request $request, ColorFilters $filters)
     {
       try {
-            $paginate = $request->query('sizePerPage', 25);
-            $result = Color::filter($filters)->paginate($paginate);
+            $result=Color::get('name');
+            // $paginate = $request->query('sizePerPage', 25);
+            // $result = Color::filter($filters)->paginate($paginate);
 
             return  $this->success(ResponseMessage::API_SUCCESS, $result);
       } catch (\Exception $e) {
@@ -60,10 +61,11 @@ class ColorController extends Controller
       }
     }
 
-    public function update(ColorRequest $request, Color $color)
+    public function update(ColorRequest $request, $id)
     {
       try {
-          $response = $color->update($request->validated());
+        $checkExist = Color::findOrFail($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

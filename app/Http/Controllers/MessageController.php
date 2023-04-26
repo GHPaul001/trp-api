@@ -47,10 +47,11 @@ class MessageController extends Controller
       }
     }
 
-    public function update(MessageRequest $request, Message $message)
+    public function update(MessageRequest $request,$id)
     {
       try {
-          $response = $message->update($request->validated());
+        $checkExist = Message::find($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

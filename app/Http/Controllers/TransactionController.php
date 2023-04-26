@@ -47,10 +47,11 @@ class TransactionController extends Controller
       }
     }
 
-    public function update(TransactionRequest $request, Transaction $transaction)
+    public function update(TransactionRequest $request, $id)
     {
       try {
-          $response = $transaction->update($request->validated());
+        $checkExist = Transaction::find($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

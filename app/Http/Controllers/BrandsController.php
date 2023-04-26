@@ -26,9 +26,9 @@ class BrandsController extends Controller
     public function store(BrandsRequest $request)
     {
       try {
-        $brands = Brands::create($request->validated());
+        Brands::create($request->all());
 
-        return $this->success(ResponseMessage::API_SUCCESS, $brands, Response::HTTP_CREATED);
+        return $this->success(ResponseMessage::API_SUCCESS, Response::HTTP_CREATED);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());
         return $this->error($e->getMessage());
@@ -81,10 +81,11 @@ class BrandsController extends Controller
       }
     }
 
-    public function destroy(Brands $brands)
+    public function destroy(Brands $brands,$id)
     {
       try {
-          $response = $brands->delete();
+          $checkExist = $brands->findOrFail($id);
+          $response = $checkExist->delete();
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

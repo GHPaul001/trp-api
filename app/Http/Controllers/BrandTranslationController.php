@@ -47,10 +47,11 @@ class BrandTranslationController extends Controller
       }
     }
 
-    public function update(BrandTranslationRequest $request, BrandTranslation $brand_translation)
+    public function update(BrandTranslationRequest $request, $id)
     {
       try {
-          $response = $brand_translation->update($request->validated());
+        $checkExist = BrandTranslation::findOrFail($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

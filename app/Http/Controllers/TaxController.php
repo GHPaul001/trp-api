@@ -62,7 +62,7 @@ class TaxController extends Controller
     public function getdigitaltaxes(Tax $tax)
     {
       try {
-          $tax = Tax::where('tax_status',1)->get(['id','name','status']);
+          $tax = Tax::where('tax_status',1)->get(['id','tax_status','name']);
 
           return $this->success(ResponseMessage::API_SUCCESS, $tax);
       } catch (\Exception $e) {
@@ -71,10 +71,11 @@ class TaxController extends Controller
       }
     }
 
-    public function update(TaxRequest $request, Tax $tax)
+    public function update(TaxRequest $request,$id)
     {
       try {
-          $response = $tax->update($request->validated());
+        $checkExist = Tax::find($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

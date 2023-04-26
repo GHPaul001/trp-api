@@ -47,10 +47,11 @@ class UserController extends Controller
       }
     }
 
-    public function update(UserRequest $request, User $user)
+    public function update(UserRequest $request,$id)
     {
       try {
-          $response = $user->update($request->validated());
+        $checkExist = User::find($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

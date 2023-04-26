@@ -47,10 +47,11 @@ class CustomerPackageTranslationController extends Controller
       }
     }
 
-    public function update(CustomerPackageTranslationRequest $request, CustomerPackageTranslation $customer_package_translation)
+    public function update(CustomerPackageTranslationRequest $request, $id)
     {
       try {
-          $response = $customer_package_translation->update($request->validated());
+        $checkExist = CustomerPackageTranslation::findOrFail($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

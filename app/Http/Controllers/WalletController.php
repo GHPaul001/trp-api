@@ -47,10 +47,11 @@ class WalletController extends Controller
       }
     }
 
-    public function update(WalletRequest $request, Wallet $wallet)
+    public function update(WalletRequest $request, $id)
     {
       try {
-          $response = $wallet->update($request->validated());
+        $checkExist = Wallet::find($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

@@ -47,10 +47,11 @@ class RoleHasPermissionController extends Controller
       }
     }
 
-    public function update(RoleHasPermissionRequest $request, RoleHasPermission $role_has_permission)
+    public function update(RoleHasPermissionRequest $request, $id)
     {
       try {
-          $response = $role_has_permission->update($request->validated());
+        $checkExist = RoleHasPermission::find($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

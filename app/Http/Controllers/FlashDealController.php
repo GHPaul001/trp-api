@@ -58,10 +58,11 @@ class FlashDealController extends Controller
       }
     }
 
-    public function update(FlashDealRequest $request, FlashDeal $flash_deal)
+    public function update(FlashDealRequest $request, $id)
     {
       try {
-          $response = $flash_deal->update($request->validated());
+        $checkExist = FlashDeal::findOrFail($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

@@ -50,7 +50,7 @@ class AttributeController extends Controller
     public function getallattributes(Attribute $attribute)
     {
       try {
-          $attribute=Attribute::get('name');
+          $attribute=Attribute::get(['id','name']);
           return $this->success(ResponseMessage::API_SUCCESS, $attribute);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());
@@ -58,10 +58,11 @@ class AttributeController extends Controller
       }
     }
 
-    public function update(AttributeRequest $request, Attribute $attribute)
+    public function update(AttributeRequest $request, $id)
     {
       try {
-          $response = $attribute->update($request->validated());
+        $checkExist = Attribute::findOrFail($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

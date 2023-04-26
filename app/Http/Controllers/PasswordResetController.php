@@ -47,10 +47,11 @@ class PasswordResetController extends Controller
       }
     }
 
-    public function update(PasswordResetRequest $request, PasswordReset $password_reset)
+    public function update(PasswordResetRequest $request, $id)
     {
       try {
-          $response = $password_reset->update($request->validated());
+        $checkExist = PasswordReset::find($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

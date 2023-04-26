@@ -47,10 +47,11 @@ class TicketController extends Controller
       }
     }
 
-    public function update(TicketRequest $request, Ticket $ticket)
+    public function update(TicketRequest $request,$id)
     {
       try {
-          $response = $ticket->update($request->validated());
+        $checkExist = Ticket::find($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

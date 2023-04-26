@@ -47,10 +47,11 @@ class SubscriberController extends Controller
       }
     }
 
-    public function update(SubscriberRequest $request, Subscriber $subscriber)
+    public function update(SubscriberRequest $request, $id)
     {
       try {
-          $response = $subscriber->update($request->validated());
+        $checkExist = Subscriber::find($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

@@ -47,10 +47,11 @@ class SearchController extends Controller
       }
     }
 
-    public function update(SearchRequest $request, Search $search)
+    public function update(SearchRequest $request, $id)
     {
       try {
-          $response = $search->update($request->validated());
+        $checkExist = Search::find($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

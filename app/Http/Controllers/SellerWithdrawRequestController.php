@@ -47,10 +47,11 @@ class SellerWithdrawRequestController extends Controller
       }
     }
 
-    public function update(SellerWithdrawRequestRequest $request, SellerWithdrawRequest $seller_withdraw_request)
+    public function update(SellerWithdrawRequestRequest $request, $id)
     {
       try {
-          $response = $seller_withdraw_request->update($request->validated());
+        $checkExist = SellerWithdrawRequest::find($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

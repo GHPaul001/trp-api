@@ -47,10 +47,11 @@ class CarrierPriceRangeController extends Controller
       }
     }
 
-    public function update(CarrierPriceRangeRequest $request, CarrierPriceRange $carrier_price_range)
+    public function update(CarrierPriceRangeRequest $request, $id)
     {
       try {
-          $response = $carrier_price_range->update($request->validated());
+        $checkExist = CarrierPriceRange::findOrFail($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

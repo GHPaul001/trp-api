@@ -47,10 +47,12 @@ class CityController extends Controller
       }
     }
 
-    public function update(CityRequest $request, City $city)
+    public function update(CityRequest $request,$id)
     {
       try {
-          $response = $city->update($request->validated());
+
+        $checkExist = City::findOrFail($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

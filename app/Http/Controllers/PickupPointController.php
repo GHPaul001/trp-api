@@ -47,10 +47,11 @@ class PickupPointController extends Controller
       }
     }
 
-    public function update(PickupPointRequest $request, PickupPoint $pickup_point)
+    public function update(PickupPointRequest $request, $id)
     {
       try {
-          $response = $pickup_point->update($request->validated());
+        $checkExist = PickupPoint::find($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());

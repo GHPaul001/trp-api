@@ -47,10 +47,11 @@ class CarrierRangeController extends Controller
       }
     }
 
-    public function update(CarrierRangeRequest $request, CarrierRange $carrier_range)
+    public function update(CarrierRangeRequest $request, $id)
     {
       try {
-          $response = $carrier_range->update($request->validated());
+        $checkExist = CarrierRange::findOrFail($id);
+        $response = $checkExist->update($request->all());
           return $this->success(ResponseMessage::API_SUCCESS, $response);
       } catch (\Exception $e) {
           \Log::error($e->getMessage(), $e->getTrace());
